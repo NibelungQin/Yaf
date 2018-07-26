@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>安装MYaf框架</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/admin/install/css/bootstrap.css" rel="stylesheet" />
+    <link href="/admin/install/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/admin/install/css/install.css" rel="stylesheet" />
+    <script src="/admin/js/jquery.min.js"></script>
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" target="_blank" href="http://www.kfw001.com">MYaf</a>
+                <div class="nav-collapse collapse">
+                    <ul id="step" class="nav">
+                        <li class="active"><a href="javascript:;">安装协议</a></li>
+                        <li class="active"><a href="javascript:;">环境检测</a></li>
+                        <li class="active"><a href="javascript:;">创建数据库</a></li>
+                        <li><a href="javascript:;">安装</a></li>
+                        <li><a href="javascript:;">完成</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="jumbotron masthead">
+        <div class="container">
+            <h1>创建数据库</h1>
+            <form method="post" target="_self" onsubmit="return false;">
+                <div class="create-database">
+                    <h2>数据库连接信息</h2>
+                    <div>
+                        <input type="text"  value="mysql" name="db[]">
+                        <span>数据库类型，默认mysql数据库</span>
+                    </div>
+                    <div>
+                        <input type="text"  value="127.0.0.1" name="db[]">
+                        <span>数据库服务器，数据库服务器IP，一般为127.0.0.1</span>
+                    </div>
+                    <div>
+                        <input type="text"  value="" name="db[]">
+                        <span>数据库名</span>
+                    </div>
+                    <div>
+                        <input type="text"  value="root" name="db[]">
+                        <span>数据库用户名</span>
+                    </div>
+                    <div>
+                        <input type="password"  value="" name="db[]">
+                        <span>数据库密码</span>
+                    </div>
+
+                    <div>
+                        <input type="text"  value="3306" name="db[]">
+                        <span>数据库端口，数据库服务连接端口，一般为3306</span>
+                    </div>
+
+                    <div>
+                        <input type="text"  value="kfw_" name="db[]">
+                        <span>数据表前缀，同一个数据库运行多个系统时请修改为不同的前缀</span>
+                    </div>
+                </div>
+
+                <div class="create-database">
+                    <h2>创始人帐号信息</h2>
+                    <div>
+                        <input type="text" name="company" value="杭州快房传媒有限公司">
+                        <span>公司名称</span>
+                    </div>
+                    <div>
+                        <input type="text" name="email" value="admin@kfw001.com">
+                        <span>用户名</span>
+                    </div>
+                    <div>
+                        <input type="password" name="password" value="">
+                        <span>密码</span>
+                    </div>
+                    <div>
+                        <input type="password" name="repassword" value="">
+                        <span>确认密码</span>
+                    </div>
+                    <div>
+                        <input type="number" name="tel" value="">
+                        <span>联系电话</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Footer
+    ================================================== -->
+    <footer class="footer navbar-fixed-bottom">
+        <div class="container">
+            <div>
+                <a class="btn btn-success btn-large" href="<?=Url::to('check')?>">上一步</a>
+                <button type="button" id="btn" class="btn btn-primary btn-large">下一步</button>
+            </div>
+        </div>
+    </footer>
+    <script>
+    (function () {
+        var fn = function () {
+            this.btn = $('#btn');
+            this.url = '<?=Url::to("exce")?>';
+            this.listen();
+        };
+        // 监听
+        fn.prototype.listen = function () {
+            var self = this;
+            self.btn.on('click', function () {
+                self.submit();
+            });
+        };
+        // 提交数据
+        fn.prototype.submit = function () {
+            var self = this;
+            var data = $('form').serialize();
+            $.post(self.url, data, function (data) {
+                alert(data.info || '系统繁忙');
+                if (data.status){
+                    window.location.href = '<?=Url::to("end")?>';
+                };
+            }, 'json');
+        };
+        return new fn();
+    }());
+    </script>
+</body>
+</html>
